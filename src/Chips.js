@@ -80,7 +80,7 @@ class Chips extends Component {
   addChips = (values) => {
     let values_normalized = values;
     if (this.props.uniqueChips) {
-      values_normalized = [...new Set(values)].filter(value => this.props.value.indexOf(value) !== -1)
+      values_normalized = [...new Set(values)].filter(value => this.props.value.indexOf(value) === -1)
     } 
 
     let chips = [...this.props.value, ...values_normalized]
