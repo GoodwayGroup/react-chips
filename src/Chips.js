@@ -77,6 +77,17 @@ class Chips extends Component {
     this.setState({ value: "" })
   }
 
+  addChips = (values) => {
+    let values_normalized = values;
+    if (this.props.uniqueChips) {
+      values_normalized = [...new Set(values)].filter(value => this.props.value.indexOf(value) !== -1)
+    } 
+
+    let chips = [...this.props.value, ...values_normalized]
+    this.props.onChange(chips);
+    this.setState({ value: "" })
+  }
+
   removeChip = idx => () => {
     let left = this.props.value.slice(0, idx);
     let right = this.props.value.slice(idx + 1);
@@ -151,9 +162,7 @@ class Chips extends Component {
   onChange = (e, { newValue }) => {
     if (!this.props.fromSuggestionsOnly && newValue.indexOf(',') !== -1 && this.props.createChipKeys.includes(9)) {
       let chips = newValue.split(",").map((val) => val.trim()).filter((val) => val !== "");
-      chips.forEach(chip => {
-        this.addChip(chip)
-      });
+      this.addChips(chips)
     } else {
       this.setState({value: newValue});
     }
